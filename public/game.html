@@ -1,22 +1,101 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
-<HTML>
+<html>
    <HEAD>
       <TITLE>Fish</TITLE>
-       <script src="fish.js"></script> 
         <link rel="stylesheet" href="stylesheets/style.css">
-
         <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed'
   rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="https://code.createjs.com/createjs-2015.11.26.min.js" charset="UTF-8"></script>
+
+
    </HEAD>
 
-   <BODY>
-   <ul>
-      <li><a href="index.html">Dashboard</a></li>
-      <li><a href="dashboard.html">Game</a></li>
-  </ul> 
-  
-  <h1>Page for the game</h1>
-   
-   </BODY>
-</HTML> 
+   <body>
+     <canvas id="demoCanvas" width="320" height="480"></canvas>
+    <script>
+      function randomSprite(stage) {
+        var sprite = new createjs.Shape();
+        sprite.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
+        sprite.x = Math.floor(Math.random() * 220) + 50
+        sprite.y = Math.floor(Math.random() * 380) + 50
+        stage.addChild(sprite);
+        return sprite;
+      }
+
+      function randomBackground(stage) {
+        var background = new createjs.Shape();
+        var colors = ["#FF0000", "#000000", "#666"];
+        var randomColor = colors[Math.floor(Math.random() * colors.length)];
+        background.graphics.beginFill(randomColor).drawRect(0, 0, 320, 480);
+        stage.addChild(background);
+        return background;
+      }
+
+      function handleClick(event, stage, background, sprite) {
+        //Convert global x, y to local see example from the website
+        var pt = sprite.globalToLocal(event.clientX, event.clientY);
+        var shotsFired = sprite.hitTest(pt.x, pt.y);
+        if (shotsFired == true){
+          console.log("First Blood!");
+          updateScore();
+        }
+      function updateScore(score){
+        window.score += 1;
+        console.log(window.score);
+        return stage;
+
+      }
+        var piano = Synth.createInstrument('piano');
+        piano.play('C', 4, 0.5); // plays C4 for 2s using the 'piano' sound profile
+        stage.removeChild(sprite);
+        stage.removeChild(background);
+        background = randomBackground(stage);
+        sprite = randomSprite(stage);
+        return [stage, background, sprite];
+      }
+
+      function init() {
+        var stage = new createjs.Stage("demoCanvas");
+        window.score = 0;
+        var background = randomBackground(stage);
+        var sprite = randomSprite(stage);
+        stage.addEventListener("click", function() {
+          var results = handleClick(event, stage, background, sprite);
+          background = results[0];
+          sprite = results[1];
+        });
+
+        createjs.Ticker.addEventListener("tick", handleTick);
+
+        function handleTick(event) {
+          stage.update()
+        }
+
+        $(window).keypress(function(e) {
+          console.log(String.fromCharCode(e.which));
+          if (String.fromCharCode(e.which) === "f") {
+            piano.play('C', 4, 2); // plays C4 for 2s using the 'piano' sound profile
+          }
+          if (String.fromCharCode(e.which) === "g") {
+            piano.play('D', 4, 2); // plays C4 for 2s using the 'piano' sound profile
+          }
+          if (String.fromCharCode(e.which) === "h") {
+            piano.play('E', 4, 2); // plays C4 for 2s using the 'piano' sound profile
+          }
+          if (String.fromCharCode(e.which) === "j") {
+            piano.play('F', 4, 2); // plays C4 for 2s using the 'piano' sound profile
+          }
+          if (String.fromCharCode(e.which) === "k") {
+            piano.play('G', 4, 2); // plays C4 for 2s using the 'piano' sound profile
+          }
+          if (String.fromCharCode(e.which) === "l") {
+            piano.play('A', 4, 2); // plays C4 for 2s using the 'piano' sound profile
+          }
+        });
+
+      }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  </body>
+</html>
