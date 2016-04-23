@@ -68,7 +68,7 @@ $(function () {
     backgroundColor: "transparent",
     regionStyle: {
       initial: {
-        fill: '#e4e4e4',
+        fill: 'green',
         "fill-opacity": 1,
         stroke: 'none',
         "stroke-width": 0,
