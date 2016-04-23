@@ -1,78 +1,95 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-   <HEAD>
-      <TITLE>Fish</TITLE>
-        <link rel="stylesheet" href="stylesheets/style.css">
-        <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed'
-  rel='stylesheet' type='text/css'>
+
+<HEAD>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <TITLE>Fish</TITLE>
+
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="https://code.createjs.com/createjs-2015.11.26.min.js" charset="UTF-8"></script>
   <script type="text/javascript" src="js/audiosynth.js"></script>
 
+  <style>
+    .topbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
 
+    #score {
+      float: right;
+      width: 40px;
+      text-align: center;
+      line-height: 40px;
+      font-size: 20px;
+    }
+  </style>
+</head>
 
-   </HEAD>
-
-   <body onload="init();">
-     <canvas id="demoCanvas" width="320" height="480"></canvas>
+<body onload="init();">
+  <div id="gameContainer">
+    <div class="topbar">
+      <div id="score">
+        0
+      </div>
+    </div>
+    <canvas id="demoCanvas" width="375" height="667"></canvas>
     <script>
       function randomSprite(stage) {
         var sprite = new createjs.Shape();
-        sprite.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-        sprite.x = Math.floor(Math.random() * 220) + 50
-        sprite.y = Math.floor(Math.random() * 380) + 50
+        sprite.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 20);
+        sprite.x = Math.floor(Math.random() * 220) + 50;
+        sprite.y = Math.floor(Math.random() * 275) + 50;
         stage.addChild(sprite);
+        stage.update();
         return sprite;
       }
 
       function randomBackground(stage) {
-        var background = new createjs.Shape();
-        var colors = ["#FF0000", "#000000", "#666"];
-        var randomColor = colors[Math.floor(Math.random() * colors.length)];
-        background.graphics.beginFill(randomColor).drawRect(0, 0, 320, 480);
-        stage.addChild(background);
-        return background;
+
       }
 
-      function handleClick(event, stage, background, sprite) {
+      function handleClick(event, stage, sprite) {
         //Convert global x, y to local see example from the website
         var pt = sprite.globalToLocal(event.clientX, event.clientY);
         var shotsFired = sprite.hitTest(pt.x, pt.y);
-        if (shotsFired == true){
+        if (shotsFired == true) {
           console.log("First Blood!");
           updateScore();
         }
-      function updateScore(score){
-        window.score += 1;
-        console.log(window.score);
-        return stage;
 
-      }
+        function updateScore(score) {
+          window.score += 1;
+          console.log(window.score);
+          $("#score").text(window.score);
+          return stage;
+
+        }
         var piano = Synth.createInstrument('piano');
         piano.play('C', 4, 0.5); // plays C4 for 2s using the 'piano' sound profile
         stage.removeChild(sprite);
-        stage.removeChild(background);
-        background = randomBackground(stage);
         sprite = randomSprite(stage);
-        return [stage, background, sprite];
+        stage.update();
+        return sprite;
       }
 
       function init() {
         var stage = new createjs.Stage("demoCanvas");
         window.score = 0;
-        var background = randomBackground(stage);
+        var background = new createjs.Shape();
+        background.graphics.beginFill("rgba(0,0,0,0.05)").drawRect(0, 0, 375, 667);
+        stage.addChild(background);
+        stage.update()
         var sprite = randomSprite(stage);
         stage.addEventListener("click", function() {
-          var results = handleClick(event, stage, background, sprite);
-          background = results[0];
-          sprite = results[1];
+          sprite = handleClick(event, stage, sprite);
         });
 
-        createjs.Ticker.addEventListener("tick", handleTick);
 
-        function handleTick(event) {
-          stage.update()
-        }
 
         $(window).keypress(function(e) {
           console.log(String.fromCharCode(e.which));
@@ -99,5 +116,6 @@
       }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  </body>
+</body>
+
 </html>
