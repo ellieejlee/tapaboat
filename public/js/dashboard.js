@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Heatmaps</title>
-  </head>
-
-  <body>
-    <div id="map" style="height:500px;width:500px;"></div>
-    <script>
-
-      // This example requires the Visualization library. Include the libraries=visualization
+ // This example requires the Visualization library. Include the libraries=visualization
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
@@ -106,7 +95,3 @@
           new google.maps.LatLng(56.958661, 3.478473)
         ];
       }
-    </script>
-
-  </body>
-</html>
