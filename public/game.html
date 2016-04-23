@@ -42,6 +42,7 @@
       height: 667px;
       width: 375px;
       background: url("images/satellite10.jpg");
+      background-color: #000;
       background-size: cover;
       background-repeat:no-repeat;
       background-position:center;
@@ -67,7 +68,7 @@
         var color = colors[colorindex];
         var tone = tones[colorindex];
         window.tone = tone;
-        sprite.graphics.beginFill(color).drawEllipse(0, 0, 20, 60);
+        sprite.graphics.beginFill(color).drawEllipse(0, 0, 30, 80);
         sprite.x = Math.floor(Math.random() * 220) + 50;
         sprite.y = Math.floor(Math.random() * 275) + 50;
         sprite.rotation = Math.floor(Math.random() * 360) + 1;
@@ -92,7 +93,7 @@
           piano.play(window.tone, 4, 1); // plays C4 for 2s using the 'piano' sound profile
           updateScore();
         };
-        var randImage = Math.floor((Math.random() * 10) + 1);
+        var randImage = Math.floor((Math.random() * 11) + 1);
         $('#gameContainer').css({"background-image": "url(images/satellite"+randImage+".jpg)"});
         stage.removeChild(sprite);
         sprite = randomSprite(stage);
@@ -105,7 +106,7 @@
         window.score = 0;
 
         var background = new createjs.Shape();
-        background.graphics.beginFill("rgba(0,0,0,0.05)").drawRect(0, 0, 375, 667);
+        background.graphics.beginFill("rgba(0,0,0,1)").drawRect(0, 0, 375, 667);
         stage.addChild(background);
         stage.update()
         var sprite = randomSprite(stage);
