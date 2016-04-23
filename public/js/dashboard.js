@@ -19,7 +19,8 @@
         // Define the LatLng coordinates for the polygon's path.
         var triangleCoords = [
           {lat: -13.717786, lng: 179.119843},
-          {lat: -6.717786, lng: 179.251679},
+          {lat: -8.017786, lng: 179.251679},
+          {lat: -6.717786, lng: 180.251679},
           {lat: -6.401700, lng: -172.770782},
           {lat: -14.144312, lng: -172.866913}
         ];
