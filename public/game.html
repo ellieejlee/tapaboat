@@ -7,11 +7,13 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed'
   rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="https://code.createjs.com/createjs-2015.11.26.min.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="js/audiosynth.js"></script>
+
 
 
    </HEAD>
 
-   <body>
+   <body onload="init();">
      <canvas id="demoCanvas" width="320" height="480"></canvas>
     <script>
       function randomSprite(stage) {
