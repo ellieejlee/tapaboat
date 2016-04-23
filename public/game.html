@@ -14,6 +14,9 @@
   <script type="text/javascript" src="js/audiosynth.js"></script>
 
   <style>
+    body{
+      background: #fff!important;
+    }
     .topbar {
       position: fixed;
       top: 0;
@@ -26,6 +29,22 @@
       text-align: center;
       line-height: 40px;
       font-size: 20px;
+    }
+
+    .background{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+
+    }
+
+    #gameContainer{
+      height: 667px;
+      width: 375px;
+      background: url("images/satellite10.jpg");
+      background-size: cover;
+      background-repeat:no-repeat;
+      background-position:center;
     }
   </style>
 </head>
@@ -41,36 +60,40 @@
     <script>
       function randomSprite(stage) {
         var sprite = new createjs.Shape();
-        sprite.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 20);
+        var colors = ["rgba(230, 126, 34, 0.75)","rgba(46, 204, 113, 0.75)","rgba(39, 174, 96, 0.75)",
+        "rgba(52, 152, 219, 0.75)","rgba(155, 89, 182, 0.75)","rgba(142, 68, 173, 0.75)","rgba(231, 76, 60, 0.75)"];
+        var tones = ["A","B","C","D","E","F","G"];
+        var colorindex = Math.floor(Math.random()*colors.length);
+        var color = colors[colorindex];
+        var tone = tones[colorindex];
+        window.tone = tone;
+        sprite.graphics.beginFill(color).drawEllipse(0, 0, 20, 60);
         sprite.x = Math.floor(Math.random() * 220) + 50;
         sprite.y = Math.floor(Math.random() * 275) + 50;
+        sprite.rotation = Math.floor(Math.random() * 360) + 1;
         stage.addChild(sprite);
         stage.update();
         return sprite;
       }
 
-      function randomBackground(stage) {
-
+      function updateScore(score) {
+        window.score += 1;
+        console.log(window.score);
+        $("#score").text(window.score);
       }
 
       function handleClick(event, stage, sprite) {
         //Convert global x, y to local see example from the website
         var pt = sprite.globalToLocal(event.clientX, event.clientY);
         var shotsFired = sprite.hitTest(pt.x, pt.y);
+        var piano = Synth.createInstrument('piano');
         if (shotsFired == true) {
           console.log("First Blood!");
+          piano.play(window.tone, 4, 1); // plays C4 for 2s using the 'piano' sound profile
           updateScore();
-        }
-
-        function updateScore(score) {
-          window.score += 1;
-          console.log(window.score);
-          $("#score").text(window.score);
-          return stage;
-
-        }
-        var piano = Synth.createInstrument('piano');
-        piano.play('C', 4, 0.5); // plays C4 for 2s using the 'piano' sound profile
+        };
+        var randImage = Math.floor((Math.random() * 10) + 1);
+        $('#gameContainer').css({"background-image": "url(images/satellite"+randImage+".jpg)"});
         stage.removeChild(sprite);
         sprite = randomSprite(stage);
         stage.update();
@@ -80,6 +103,7 @@
       function init() {
         var stage = new createjs.Stage("demoCanvas");
         window.score = 0;
+
         var background = new createjs.Shape();
         background.graphics.beginFill("rgba(0,0,0,0.05)").drawRect(0, 0, 375, 667);
         stage.addChild(background);
