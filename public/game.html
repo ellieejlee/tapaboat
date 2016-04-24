@@ -63,7 +63,7 @@
       height:100%;
       background-size: cover;
     }
-    #b1{ background-image: url("images/satellite1.jpg");}
+    #b1{ background-image: url("images/satellite11.jpg");}
     #b2{ background-image: url("images/satellite2.jpg");}
     #b3{ background-image: url("images/satellite3.jpg");}
     #b4{ background-image: url("images/satellite4.jpg");}
@@ -73,7 +73,6 @@
     #b8{ background-image: url("images/satellite8.jpg");}
     #b9{ background-image: url("images/satellite9.jpg");}
     #b10{ background-image: url("images/satellite10.jpg");}
-    #b11{ background-image: url("images/satellite11.jpg");}
 
 
 }
@@ -180,13 +179,14 @@
             piano.play(window.tone, 4, 1); // plays C4 for 2s using the 'piano' sound profile
             updateScore();
           };
-          var randImage = Math.floor((Math.random() * 11) + 1);
+          var randImage = Math.floor((Math.random() * 10) + 1);
           //$('#gameContainer').css({"background-image": "url(images/satellite"+randImage+".jpg)"});
           stage.removeChild(sprite);
           stage.update();
-          var randImage = Math.floor((Math.random() * 11) + 1);
-          while (randImage == window.background) {
-              randImage = Math.floor((Math.random() * 11) + 1);
+          var randImage = Math.floor((Math.random() * 10) + 1);
+          while(randImage == window.background) {
+              console.log("while")
+              randImage = Math.floor((Math.random() * 10) + 1);
           }
           console.log(window.background);
           $("#b"+window.background).hide(0);
