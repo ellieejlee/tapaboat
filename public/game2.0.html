@@ -1,0 +1,85 @@
+<!DOCTYPE>
+<html>
+<head>
+<script type="text/javascript" src="js/pixi.min.js"></script>
+</head>
+<body>
+
+<script>
+var renderer = PIXI.autoDetectRenderer(375, 667, { antialias: true });
+document.body.appendChild(renderer.view);
+
+
+// create the root of the scene graph
+var stage = new PIXI.Container();
+var background = new PIXI.Sprite.fromImage('http://www.goodboydigital.com/pixijs/logo_small.png');
+stage.interactive = true;
+
+var mapContainer = new  PIXI.Container(),
+    unitsContainer = new  PIXI.Container(),
+    menuContainer = new  PIXI.Container();
+
+mapContainer.zIndex = 5;
+unitsContainer.zIndex = 10;
+menuContainer.zIndex = 20;
+
+var ellipse = new PIXI.Graphics();
+function createEllipse(ellipse){
+  var  x = Math.floor(Math.random() * 300) + 100;
+  var y = Math.floor(Math.random() * 580) + 100;
+  var rotation = Math.floor(Math.random() * 360) + 1;
+  // draw a rounded rectangle
+  ellipse.rotation = rotation;
+  ellipse.lineStyle(0);
+  ellipse.beginFill(0xFF00BB, 0.75);
+  ellipse.drawEllipse(x, y, 30, 80);
+  ellipse.endFill();
+}
+createEllipse(ellipse);
+stage.interactive = true;
+stage.hitArea = new PIXI.Rectangle(0, 0, 375, 667);
+stage.on('mousedown', onDown);
+stage.on('touchstart', onDown);
+
+unitsContainer.addChild(ellipse);
+mapContainer.addChild(background);
+stage.addChild(unitsContainer);
+stage.addChild(mapContainer);
+
+function onDown (eventData) {
+
+  console.log(eventData);
+  var x = eventData.data.originalEvent.clientX;
+  var y = eventData.data.originalEvent.clientY;
+  var touched = ellipse.containsPoint(new PIXI.Point(x, y));
+  var areaX = ellipse.containsPoint(new PIXI.Point(x+5, y));
+  var areaY = ellipse.containsPoint(new PIXI.Point(x, y+5));
+
+  if((touched || areaX || areaY) == true){
+    console.log("b");
+  }
+
+  ellipse.clear();
+  //background.destroy();
+  ellipse.lineStyle(0);
+  ellipse.beginFill(0xFF00BB, 0.75);
+  ellipse.drawEllipse(50, 50, 30, 80);
+  ellipse.endFill();
+
+
+}
+
+// run the render loop
+animate();
+
+function animate() {
+
+    renderer.render(stage);
+    requestAnimationFrame( animate );
+}
+
+
+
+
+</script>
+</body>
