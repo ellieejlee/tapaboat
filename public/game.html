@@ -55,15 +55,15 @@
     #gameContainer img{
       position: relative;
       z-index: 1;
-      display:none;
     }
     .backgroundImage{
       width:100%;
       height:100%;
       background-size: cover;
       background-repeat: no-repeat;
+      display:none;
     }
-    #b1{ background-image: url("images/satellite11.jpg");}
+    #b1{ background-image: url("images/satellite12.jpg");}
     #b2{ background-image: url("images/satellite2.jpg");}
     #b3{ background-image: url("images/satellite3.jpg");}
     #b4{ background-image: url("images/satellite4.jpg");}
@@ -115,6 +115,16 @@
       }
 
       function init() {
+        var count = 6;
+        var countdown = setInterval(function(){
+          $("p.countdown").html(count + " seconds remaining!");
+          if (count == 0) {
+            clearInterval(countdown);
+            window.open('http://fish.eu-gb.mybluemix.net/result.html', "_self");
+          }
+          count--;
+        }, 1000);
+
         createjs.MotionGuidePlugin.install();
         var piano = Synth.createInstrument('piano');
         window.background = 1;
